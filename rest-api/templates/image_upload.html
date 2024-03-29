@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{%block head %}
+{{ super() }}
+<title>Athelo Admin</title>
+<script src="../static/js/image_upload.js"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container themed-container text-center p-5">
+    <input type="file" class="form-control" id="fileInput" name="filename" required="true">
+    <button class="btn btn-primary" type="submit" id="uploadJsonButton">Upload file as Json</button>
+</div>
+
+<div class="container themed-container text-center p-5">
+    <form method="POST" action="/api/v1/common/image/" target="/" enctype="multipart/form-data">
+        <p><input type="file" class="form-control" name="file" accept="image/*" required="true"></p>
+        <p><button class="btn btn-primary" type="submit"> Submit as Form Data</button></p>
+    </form>
+</div>
+<script>
+    document.getElementById('uploadJsonButton').onclick = uploadImageJson
+</script>
+
+
+{% endblock %}

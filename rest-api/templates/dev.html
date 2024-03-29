@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{%block head %}
+{{ super() }}
+
+<title>Athelo Admin</title>
+<script src="../static/js/dev_tools.js"></script>
+{% endblock %}
+
+{% block main %}
+<div class="d-grid gap-2 p-5">
+
+    <div class="container themed-container text-center p-5">
+        <h6 id="publicEndpointMessage"> </h6>
+        <button class="btn btn-primary" id="getPublicButton" onclick="getPublicEndpoint">Try Public Endpoint</button>
+    </div>
+
+    <div class="container themed-container text-center p-5">
+        <h6 id="protectedEndpointMessage"> </h6>
+        <button class="btn btn-primary" id="getProtectedButton" onclick="getProtectedEndpoint">Try Protected
+            Endpoint</button>
+    </div>
+    <div class="container themed-container text-center p-5">
+        <div class="row"> 
+            <textarea id="tokenDisplay"> No token </textarea>
+        </div>
+        <div class="row"> 
+            <button id="getTokenButton" class="btn btn-primary" onclick="copyToken">Copy token</button>
+        </div>
+        
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('getTokenButton').onclick = copyToken
+    document.getElementById('getPublicButton').onclick = getPublicEndpoint
+    document.getElementById('getProtectedButton').onclick = getProtectedEndpoint
+
+</script>
+
+
+{% endblock %}
+
+
+
+{%block getToken%}
+<script>
+async function getToken() {
+    if (curr_user == null) {
+        window.alert("Please sign in to get a token.")
+    }
+    google_token = await firebase.auth().currentUser.getIdToken().catch((error) => {
+        document.getElementById('tokenDisplay').textContent = error.message
+    })
+    if (google_token) {
+        document.getElementById('tokenDisplay').textContent = `${google_token}`
+    } else {
+        document.getElementById('tokenDisplay').textContent = 'Unable to get token'
+    }
+
+}
+</script>
+{%endblock%}
+
